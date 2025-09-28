@@ -1237,41 +1237,41 @@ setInterval(updateCountdown, 1000);
 </footer>
 <!-- Contact Us Modal -->
 <div id="contactModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
-  <div class="modal-content" style="background:#000000; padding:20px; border-radius:8px; width:400px; max-width:90%;">
+  <div class="modal-content" style="background:#fff; padding:20px; border-radius:8px; width:400px; max-width:90%;">
     <span class="close" id="closeModal" style="float:right; cursor:pointer;">&times;</span>
     <h2>Contact Us</h2>
-    <form id="contactForm">
+    <form id="contactForm" action="https://formsubmit.co/peoplegalaxynotepad@outlook.com" method="POST">
       <!-- First Name -->
       <label for="first_name">First Name:</label>
-      <input type="text" id="first_name" required>
+      <input type="text" name="first_name" required>
 
       <!-- Last Name -->
       <label for="last_name">Last Name:</label>
-      <input type="text" id="last_name" required>
+      <input type="text" name="last_name" required>
 
       <!-- Email -->
       <label for="email">Email:</label>
-      <input type="email" id="email" required>
+      <input type="email" name="email" required>
 
       <!-- Phone Number -->
       <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone">
+      <input type="tel" name="phone">
 
       <!-- Home Address -->
       <label for="home_address">Home Address:</label>
-      <input type="text" id="home_address">
+      <input type="text" name="home_address">
 
       <!-- Company Name -->
       <label for="company_name">Company Name:</label>
-      <input type="text" id="company_name">
+      <input type="text" name="company_name">
 
       <!-- Subject -->
       <label for="subject">Subject:</label>
-      <input type="text" id="subject" required>
+      <input type="text" name="subject" required>
 
       <!-- Inquiry Type -->
       <label for="inquiry_type">Type of Inquiry:</label>
-      <select id="inquiry_type" required>
+      <select name="inquiry_type" required>
         <option value="">-- Select --</option>
         <option value="Bug Report">Bug Report</option>
         <option value="Idea">Idea</option>
@@ -1281,19 +1281,28 @@ setInterval(updateCountdown, 1000);
 
       <!-- Message -->
       <label for="message">Message:</label>
-      <textarea id="message" rows="5" required></textarea>
+      <textarea name="message" rows="5" required></textarea>
+
+      <!-- Optional hidden fields for FormSubmit -->
+      <input type="hidden" name="_captcha" value="false"> <!-- Disable built-in captcha -->
+      <input type="hidden" name="_next" value="https://yourwebsite.com/thankyou.html"> <!-- Redirect after submit -->
 
       <!-- Send Button -->
-      <button type="submit">Send via Outlook</button>
+      <button type="submit">Send</button>
     </form>
+
+    <p id="formResponse" style="display:none; color:green; font-weight:bold; margin-top:10px;">
+      ✅ Thanks! Your message has been sent.
+    </p>
   </div>
 </div>
 
 <script>
-  const contactLink = document.getElementById("contactLink"); // button to open modal
+  const contactLink = document.getElementById("contactLink"); // Button/link that opens modal
   const modal = document.getElementById("contactModal");
   const closeBtn = document.getElementById("closeModal");
   const form = document.getElementById("contactForm");
+  const responseMsg = document.getElementById("formResponse");
 
   // Open modal
   contactLink?.addEventListener("click", (e) => {
@@ -1305,28 +1314,14 @@ setInterval(updateCountdown, 1000);
   closeBtn.onclick = () => { modal.style.display = "none"; }
   window.onclick = (e) => { if(e.target == modal) modal.style.display = "none"; }
 
-  // On form submit, open Outlook mail
-  form.onsubmit = (e) => {
-    e.preventDefault();
-
-    const firstName = encodeURIComponent(document.getElementById("first_name").value);
-    const lastName = encodeURIComponent(document.getElementById("last_name").value);
-    const email = encodeURIComponent(document.getElementById("email").value);
-    const phone = encodeURIComponent(document.getElementById("phone").value);
-    const homeAddress = encodeURIComponent(document.getElementById("home_address").value);
-    const companyName = encodeURIComponent(document.getElementById("company_name").value);
-    const subject = encodeURIComponent(document.getElementById("subject").value);
-    const inquiryType = encodeURIComponent(document.getElementById("inquiry_type").value);
-    const message = encodeURIComponent(document.getElementById("message").value);
-
-    const body = `First Name: ${firstName}%0D%0ALast Name: ${lastName}%0D%0AEmail: ${email}%0D%0APhone: ${phone}%0D%0AHome Address: ${homeAddress}%0D%0ACompany: ${companyName}%0D%0AType of Inquiry: ${inquiryType}%0D%0A%0D%0AMessage:%0D%0A${message}`;
-
-    // Replace with your Outlook email
-    const mailtoLink = `mailto:peoplegalaxynotepad@outlook.com?subject=${subject}&body=${body}`;
-
-    window.location.href = mailtoLink;
+  // Show success message after submit
+  form.onsubmit = () => {
+    responseMsg.style.display = "block";
+    form.reset();
+    return true; // allow FormSubmit to send email
   }
 </script>
+
 
 
 
@@ -1334,3 +1329,4 @@ setInterval(updateCountdown, 1000);
 
 
 </html>
+
