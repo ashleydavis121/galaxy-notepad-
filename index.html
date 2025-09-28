@@ -1256,12 +1256,7 @@ setInterval(updateCountdown, 1000);
       <!-- Last Name -->
       <label for="last_name">Last Name:</label>
       <input type="text" name="last_name" required style="width:100%; margin-bottom:10px;">
-
-      <!-- Email -->
-      <label for="email">Email:</label>
-      <input type="email" name="email" required style="width:100%; margin-bottom:10px;">
-
-      <!-- Phone Number -->
+-- Phone Number -->
       <label for="phone">Phone Number:</label>
       <input type="tel" name="phone" style="width:100%; margin-bottom:10px;">
 
@@ -1301,44 +1296,51 @@ setInterval(updateCountdown, 1000);
   </div>
 </div>
 
-// Validate required fields
-function validateForm() {
-  let valid = true;
-  const requiredFields = form.querySelectorAll("[required]");
+<script>
+  // Validate required fields
+  function validateForm() {
+    let valid = true;
+    const requiredFields = form.querySelectorAll("[required]");
+    let firstInvalidField = null;
 
-  requiredFields.forEach(field => {
-    if (!field.value.trim()) {
-      field.style.border = "2px solid red";
-      valid = false;
-    } else {
-      field.style.border = ""; // remove red border if filled
+    requiredFields.forEach(field => {
+      if (!field.value.trim()) {
+        field.style.border = "2px solid red";
+        if (!firstInvalidField) firstInvalidField = field;
+        valid = false;
+      } else {
+        field.style.border = ""; // remove red border if filled
+      }
+    });
+
+    // Scroll to first invalid field
+    if (firstInvalidField) {
+      firstInvalidField.scrollIntoView({ behavior: "smooth", block: "center" });
+      firstInvalidField.focus();
     }
-  });
 
-  return valid;
-}
-
-// Submit form
-form.onsubmit = (e) => {
-  if (!validateForm()) {
-    e.preventDefault(); // prevent form submission
-    alert("Please fill in all required fields.");
-    return false;
+    return valid;
   }
 
-  responseMsg.style.display = "block"; // show success message
-  form.reset();
-  return true; // allow FormSubmit to send email
-}
+  // Submit form
+  form.onsubmit = (e) => {
+    if (!validateForm()) {
+      e.preventDefault(); // prevent form submission
+      alert("Please fill in all required fields.");
+      return false;
+    }
 
-
-
-
+    responseMsg.style.display = "block"; // show success message
+    form.reset();
+    return true; // allow FormSubmit to send email
+  }
+</script>
 
 </body>
 
 
 </html>
+
 
 
 
