@@ -400,6 +400,47 @@
   background: #005fa3;
 }
 
+<style>
+/* Form background */
+.modal-content {
+  background: #000000; /* black background */
+  color: #ffffff;      /* default text white */
+}
+
+/* Inputs and textarea styling */
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+  background: #222222;  /* dark grey for input boxes */
+  color: #ffffff;       /* white text */
+  border: 1px solid #555555; /* border visible on black */
+  padding: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Placeholder text */
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+  color: #bbbbbb;
+}
+
+/* Button styling */
+.modal-content button {
+  background: #1a73e8;  /* blue button */
+  color: #ffffff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.modal-content button:hover {
+  background: #155ab6;
+}
+</style>
 
 
     </style>
@@ -1327,5 +1368,6 @@ setInterval(updateCountdown, 1000);
 
 
 </body>
+
 
 </html>
