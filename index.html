@@ -1249,24 +1249,49 @@ setInterval(updateCountdown, 1000);
       <input type="hidden" name="_captcha" value="false"> <!-- Disable FormSubmit captcha -->
       <input type="hidden" name="_next" value=""> <!-- Keep blank so page doesn’t redirect -->
       
+      <!-- First Name -->
       <label for="first_name">First Name:</label>
       <input type="text" name="first_name" required style="width:100%; margin-bottom:10px;">
 
+      <!-- Last Name -->
       <label for="last_name">Last Name:</label>
       <input type="text" name="last_name" required style="width:100%; margin-bottom:10px;">
 
+      <!-- Email -->
       <label for="email">Email:</label>
       <input type="email" name="email" required style="width:100%; margin-bottom:10px;">
 
+      <!-- Phone Number -->
       <label for="phone">Phone Number:</label>
       <input type="tel" name="phone" style="width:100%; margin-bottom:10px;">
 
+      <!-- Home Address -->
+      <label for="home_address">Home Address:</label>
+      <input type="text" name="home_address" style="width:100%; margin-bottom:10px;">
+
+      <!-- Company Name -->
+      <label for="company_name">Company Name:</label>
+      <input type="text" name="company_name" style="width:100%; margin-bottom:10px;">
+
+      <!-- Subject -->
       <label for="subject">Subject:</label>
       <input type="text" name="subject" required style="width:100%; margin-bottom:10px;">
 
+      <!-- Inquiry Type Dropdown -->
+      <label for="inquiry_type">Type of Inquiry:</label>
+      <select name="inquiry_type" required style="width:100%; margin-bottom:10px;">
+        <option value="">-- Select --</option>
+        <option value="Bug Report">Bug Report</option>
+        <option value="Idea">Idea</option>
+        <option value="Feedback">Feedback</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <!-- Message -->
       <label for="message">Message:</label>
       <textarea name="message" rows="5" required style="width:100%; margin-bottom:10px;"></textarea>
 
+      <!-- Send Button -->
       <button type="submit" style="padding:10px 20px; cursor:pointer;">Send</button>
     </form>
 
@@ -1319,5 +1344,6 @@ setInterval(updateCountdown, 1000);
 
 
 </html>
+
 
 
