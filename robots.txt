@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://https://ashleydavis121.github.io/galaxy-notepad-//sitemap.xml
