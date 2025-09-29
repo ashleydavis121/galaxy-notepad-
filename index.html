@@ -44,6 +44,8 @@
 <body>
 
 </body>
+     <canvas id="starCanvas"></canvas>
+
 </html>
 
 
@@ -418,6 +420,15 @@
   background: #005fa3;
 }
 
+  #starCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* behind your notepad */
+    background-color: black; /* keep your current background if needed */
+  }
 
 
     </style>
@@ -1345,6 +1356,111 @@ setInterval(updateCountdown, 1000);
     return true; // allow FormSubmit to send email
   }
 </script>
+<script>
+const canvas = document.getElementById('starCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+const numStars = 150;
+const stars = [];
+
+// Create background stars
+for (let i = 0; i < numStars; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2 + 1,
+    alpha: Math.random(),
+    delta: Math.random() * 0.02 + 0.01,
+    shooting: Math.random() < 0.1,
+    dx: 0,
+    dy: 0,
+    trail: []
+  });
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let star of stars) {
+    // Draw normal stars
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
+    ctx.fill();
+
+    // Twinkle effect
+    star.alpha += star.delta;
+    if (star.alpha > 1 || star.alpha < 0) star.delta *= -1;
+
+    if (!star.shooting) {
+      // Drift slowly
+      star.x += star.size * 0.02;
+      if (star.x > canvas.width) star.x = 0;
+    } else {
+      // Shooting star setup
+      if (star.dx === 0 && star.dy === 0) {
+        const directions = [
+          { dx: 4, dy: 0 },   // right
+          { dx: -4, dy: 0 },  // left
+          { dx: 0, dy: 4 },   // down
+          { dx: 0, dy: -4 },  // up
+          { dx: 3, dy: 3 },   // down-right
+          { dx: -3, dy: 3 },  // down-left
+          { dx: 3, dy: -3 },  // up-right
+          { dx: -3, dy: -3 }  // up-left
+        ];
+        const dir = directions[Math.floor(Math.random() * directions.length)];
+        star.dx = dir.dx;
+        star.dy = dir.dy;
+      }
+
+      // Add trail
+      star.trail.push({ x: star.x, y: star.y });
+      if (star.trail.length > 40) star.trail.shift();
+
+      // Draw trail
+      for (let i = 0; i < star.trail.length; i++) {
+        const t = star.trail[i];
+        ctx.beginPath();
+        ctx.arc(t.x, t.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,200,${i / star.trail.length})`;
+        ctx.fill();
+      }
+
+      // Draw bright head
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255,255,180,0.9)";
+      ctx.fill();
+
+      // Move star
+      star.x += star.dx;
+      star.y += star.dy;
+
+      // Reset if off screen
+      if (star.x < -50 || star.y < -50 || star.x > canvas.width + 50 || star.y > canvas.height + 50) {
+        star.x = Math.random() * canvas.width;
+        star.y = Math.random() * canvas.height / 2;
+        star.dx = 0;
+        star.dy = 0;
+        star.trail = [];
+        star.shooting = true;
+      }
+    }
+  }
+
+  requestAnimationFrame(drawStars);
+}
+
+drawStars();
+</script>
 
 
 
@@ -1352,6 +1468,7 @@ setInterval(updateCountdown, 1000);
 
 
 </html>
+
 
 
 
