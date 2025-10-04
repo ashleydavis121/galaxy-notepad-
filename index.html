@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- 🔔 Permanent Purple Banner -->
+<!-- Banner -->
 <div id="alert-banner" style="
   width: 100%;
   background: linear-gradient(90deg, #5e0acc, #a86ff7);
@@ -13,9 +13,31 @@
   border-bottom: 2px solid #fff;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 ">
-  💜 Thanks for stopping by my amazing Notepad!  
-  New features are coming soon — stay tuned!
+  💜 Thanks for stopping by my amazing Notepad!
 </div>
+
+<!-- Spacer -->
+<div style="height: 80px;"></div>
+
+<script>
+  // Array of messages to test
+  const messages = [
+    "💜 Thanks for stopping by my amazing Notepad!",
+    "🚀 New feature coming soon — stay tuned!",
+    "📝 Share your suggestions or ideas anytime!",
+    "✨ Version 2.0 will be live soon!"
+  ];
+
+  let currentIndex = 0;
+  const banner = document.getElementById("alert-banner");
+
+  // Function to update banner text every 5 seconds
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % messages.length;
+    banner.textContent = messages[currentIndex];
+  }, 5000); // Change every 5 seconds
+</script>
+
 
   <meta charset="UTF-8">
 
@@ -1483,6 +1505,7 @@ drawStars();
 
 
 </html>
+
 
 
 
