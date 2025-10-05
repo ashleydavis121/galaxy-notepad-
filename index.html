@@ -16,7 +16,12 @@
   💜 Thanks for stopping by my amazing Notepad!
 </div>
 
-
+  // Function to update banner text every 5 seconds
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % messages.length;
+    banner.textContent = messages[currentIndex];
+  }, 5000); // Change every 5 seconds
+</script>
 
 <script>
   // Array of messages to test
@@ -17487,6 +17492,7 @@ drawStars();
 
 
 </html>
+
 
 
 
