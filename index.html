@@ -17522,12 +17522,108 @@ draw();
     return true; // allow FormSubmit to send email
   }
 </script>
+<canvas id="starCanvas"></canvas>
+<script>
+const canvas = document.getElementById('starCanvas');
+const ctx = canvas.getContext('2d');
+let W = window.innerWidth;
+let H = window.innerHeight;
+canvas.width = W;
+canvas.height = H;
 
+window.addEventListener('resize', () => {
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W;
+    canvas.height = H;
+});
+
+const totalStars = 500;
+const stars = [];
+const shootingStars = [];
+
+// Initialize stars
+for (let i = 0; i < totalStars; i++) {
+    stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        size: Math.random() * 2 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.3,
+        speedY: (Math.random() - 0.5) * 0.3,
+        alpha: Math.random(),
+        delta: Math.random() * 0.02 + 0.01
+    });
+}
+
+// Spawn shooting star
+function spawnShootingStar() {
+    shootingStars.push({
+        x: Math.random() * W,
+        y: Math.random() * H * 0.5,
+        dx: Math.random() * 6 - 3,
+        dy: Math.random() * 6 - 3,
+        length: Math.random() * 150 + 50,
+        life: 0,
+        maxLife: Math.random() * 60 + 30
+    });
+}
+
+// Animation loop
+function animate() {
+    ctx.fillStyle = 'rgba(0,0,0,0.25)'; // faint trail effect
+    ctx.fillRect(0, 0, W, H);
+
+    // Draw stars
+    stars.forEach(s => {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+        ctx.fill();
+
+        s.alpha += s.delta;
+        if (s.alpha > 1 || s.alpha < 0) s.delta *= -1;
+
+        s.x += s.speedX;
+        s.y += s.speedY;
+        if (s.x < 0) s.x = W;
+        if (s.x > W) s.x = 0;
+        if (s.y < 0) s.y = H;
+        if (s.y > H) s.y = 0;
+    });
+
+    // Occasionally spawn shooting stars
+    if (Math.random() < 0.02) spawnShootingStar();
+
+    // Draw shooting stars
+    for (let i = shootingStars.length - 1; i >= 0; i--) {
+        const sh = shootingStars[i];
+        ctx.beginPath();
+        ctx.moveTo(sh.x, sh.y);
+        ctx.lineTo(sh.x - sh.dx * sh.length, sh.y - sh.dy * sh.length);
+        ctx.strokeStyle = 'rgba(255, 255, 200, 0.8)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        sh.x += sh.dx;
+        sh.y += sh.dy;
+        sh.life++;
+
+        if (sh.life > sh.maxLife || sh.x < -200 || sh.x > W + 200 || sh.y < -200 || sh.y > H + 200) {
+            shootingStars.splice(i, 1);
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+</script>
 
 </body>
 
 
 </html>
+
 
 
 
