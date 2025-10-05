@@ -17602,17 +17602,15 @@ function drawStars() {
       star.x += star.dx;
       star.y += star.dy;
 
-      // Reset if off screen
-      if (star.x < -50 || star.y < -50 || star.x > canvas.width + 50 || star.y > canvas.height + 50) {
-        star.x = Math.random() * canvas.width;
-        star.y = Math.random() * canvas.height / 2;
-        star.dx = 0;
-        star.dy = 0;
-        star.trail = [];
-        star.shooting = Math.random() < 0.020;// more frequent shooting stars
-      }
-    }
-  });
+// Reset if off screen
+if (star.x < -50 || star.y < -50 || star.x > canvas.width + 50 || star.y > canvas.height + 50) {
+    star.x = Math.random() * canvas.width;
+    star.y = Math.random() * canvas.height / 2;
+    star.dx = 0;
+    star.dy = 0;
+    star.trail = [];
+    star.shooting = true; // ALWAYS shooting
+}
 
   requestAnimationFrame(drawStars);
 }
@@ -17657,6 +17655,7 @@ drawStars();
 
 
 </html>
+
 
 
 
