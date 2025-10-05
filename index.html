@@ -23,11 +23,30 @@
 <script>
   // Array of messages to test (fixed comma)
   const messages = [
-     "💜 Thanks for stopping by my amazing Notepad!",
+   const messages = [
+    "💜 Thanks for stopping by my amazing Notepad!",
     "🚀 New feature coming soon — stay tuned!",
     "📝 Share your suggestions or ideas anytime!",
     "✨ Version 2.0 will be live soon!",
-    "⚠️ Please understand some font sizes or fonts are still being tested. Please be patient while I work to make them fully functional for you! As you know, this is a new notepad — adding feature icons is a tricky thing, but I am willing enough to tackle them. Please be patient while I am in the middle of adding more new features so it looks good for you all out there."
+    "⚠️ Please understand some font sizes or fonts are still being tested. Please be patient while I work to make them fully functional for you! As you know, this is a new notepad — adding feature icons is a tricky thing, but I am willing enough to tackle them. Please be patient while I am in the middle of adding more new features so it looks good for you all out there.",
+    "⚠️ Heads up! Pop-up trial ads for a 30-day trial will be added soon. Please make sure to save all your work on your computer so nothing is lost before the trial period starts."
+];
+
+// Display rotating messages in your banner
+const banner = document.getElementById("alert-banner");
+let currentIndex = 0;
+
+function rotateMessages() {
+    banner.textContent = messages[currentIndex];
+    currentIndex = (currentIndex + 1) % messages.length;
+}
+
+// Initial display
+rotateMessages();
+
+// Rotate every 5 seconds
+setInterval(rotateMessages, 5000);
+
   ];
 
   let currentIndex = 0;
@@ -50,6 +69,7 @@
 
 <!-- Meta Description -->
 <meta name="description" content="People Galaxy Notepad is a free online text editor to quickly write, edit, and save notes. Simple, fast, and clean – created by Ashley.">
+  
 
 <!-- Keywords -->
 <meta name="keywords" content="online notepad, free notepad, text editor, write notes online, Galaxy Notepad, quick notes">
@@ -58,6 +78,7 @@
   <!-- Open Graph (Social Media Preview) -->
   <meta property="og:title" content="People Galaxy Notepad Online Editor">
   <meta property="og:description" content="Write, edit, and save notes online with the People Galaxy Notepad Online Editor. Clean interface and easy-to-use.">
+  
   <meta property="og:type" content="website">
   <meta property="og:url" content="YOUR_PAGE_URL_HERE">
   <meta property="og:image" content="YOUR_IMAGE_URL_HERE">
@@ -17479,6 +17500,7 @@ drawStars();
 
 
 </html>
+
 
 
 
