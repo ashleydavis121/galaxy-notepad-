@@ -17468,33 +17468,13 @@ drawStars();
     return true; // allow FormSubmit to send email
   }
 </script>
-  <script>
-    function applyFont(fontName) {
-  const sel = window.getSelection();
-  if (!sel.rangeCount) return;
-  const range = sel.getRangeAt(0);
-  if (range.collapsed) return;
-  const span = document.createElement('span');
-  span.style.fontFamily = fontName;
-  range.surroundContents(span);
-}
 
-function applyFontSize(pxSize) {
-  const sel = window.getSelection();
-  if (!sel.rangeCount) return;
-  const range = sel.getRangeAt(0);
-  if (range.collapsed) return;
-  const span = document.createElement('span');
-  span.style.fontSize = pxSize;
-  range.surroundContents(span);
-}
-
-  </script>
 
 </body>
 
 
 </html>
+
 
 
 
