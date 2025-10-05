@@ -17508,9 +17508,6 @@ setInterval(updateCountdown, 1000);
     form.reset();
     return true; // allow FormSubmit to send email
   }
-</script>
-
-<!-- Full Update: Galaxy Star Background Fix -->
 <canvas id="starCanvas"></canvas>
 
 <script>
@@ -17525,21 +17522,22 @@ window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 const totalStars = 500; // Total stars for performance
-
 const stars = [];
 
-    // Reset if off screen
-      if (star.x < -50 || star.y < -50 || star.x > canvas.width + 50 || star.y > canvas.height + 50) {
-        star.x = Math.random() * canvas.width;
-        star.y = Math.random() * canvas.height / 2;
-        star.dx = 0;
-        star.dy = 0;
-        star.trail = [];
-        star.shooting = Math.random() < 0.05;
-      }
-    }
+// Create stars
+for (let i = 0; i < totalStars; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2 + 1,
+    alpha: Math.random(),
+    delta: Math.random() * 0.02 + 0.01,
+    shooting: Math.random() < 0.2, // increase shooting star chance
+    dx: 0,
+    dy: 0,
+    trail: []
   });
-
+}
 
 // Draw stars with shooting effect
 function drawStars() {
@@ -17557,8 +17555,10 @@ function drawStars() {
     if (star.alpha > 1 || star.alpha < 0) star.delta *= -1;
 
     if (!star.shooting) {
-      star.x += (Math.random() - 0.5) * 0.5; // small left/right drift
+      // small left/right drift
+      star.x += (Math.random() - 0.5) * 0.5;
       star.y += (Math.random() - 0.5) * 0.5;
+
       if (star.x > canvas.width) star.x = 0;
       if (star.x < 0) star.x = canvas.width;
       if (star.y > canvas.height) star.y = 0;
@@ -17598,22 +17598,24 @@ function drawStars() {
       star.x += star.dx;
       star.y += star.dy;
 
-  // Reset if off screen
-if (star.x < -50 || star.y < -50 || star.x > canvas.width + 50 || star.y > canvas.height + 50) {
-    star.x = Math.random() * canvas.width;
-    star.y = Math.random() * canvas.height / 2;
-    star.dx = 0;
-    star.dy = 0;
-    star.trail = [];
-    star.shooting = Math.random() < 0.2; // increased chance for shooting star
-}
-
+      // Reset if off screen
+      if (star.x < -50 || star.y < -50 || star.x > canvas.width + 50 || star.y > canvas.height + 50) {
+        star.x = Math.random() * canvas.width;
+        star.y = Math.random() * canvas.height / 2;
+        star.dx = 0;
+        star.dy = 0;
+        star.trail = [];
+        star.shooting = Math.random() < 0.2; // more frequent shooting stars
+      }
+    }
+  });
 
   requestAnimationFrame(drawStars);
 }
 
 drawStars();
 </script>
+
 
 <style>
 /* Safe Fix: Ensure galaxy background shows under notepad */
@@ -17650,6 +17652,7 @@ drawStars();
 
 
 </html>
+
 
 
 
