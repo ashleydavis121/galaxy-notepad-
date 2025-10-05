@@ -17510,108 +17510,150 @@ setInterval(updateCountdown, 1000);
   }
 </script>
 
+<!-- Full Update: Galaxy Star Background Fix -->
 <canvas id="starCanvas"></canvas>
+
 <script>
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
-let W = window.innerWidth;
-let H = window.innerHeight;
-canvas.width = W;
-canvas.height = H;
 
-window.addEventListener('resize', () => {
-    W = window.innerWidth;
-    H = window.innerHeight;
-    canvas.width = W;
-    canvas.height = H;
-});
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
 
-const totalStars = 500;
+const totalStars = 500; // Total stars for performance
+
 const stars = [];
-const shootingStars = [];
 
-// Initialize stars
+// Create stars
 for (let i = 0; i < totalStars; i++) {
-    stars.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        size: Math.random() * 2 + 0.5,
-        speedX: (Math.random() - 0.5) * 0.3,
-        speedY: (Math.random() - 0.5) * 0.3,
-        alpha: Math.random(),
-        delta: Math.random() * 0.02 + 0.01
-    });
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2 + 1,
+    alpha: Math.random(),
+    delta: Math.random() * 0.02 + 0.01,
+    shooting: Math.random() < 0.05,
+    dx: 0,
+    dy: 0,
+    trail: []
+  });
 }
 
-// Spawn shooting star
-function spawnShootingStar() {
-    shootingStars.push({
-        x: Math.random() * W,
-        y: Math.random() * H * 0.5,
-        dx: Math.random() * 6 - 3,
-        dy: Math.random() * 6 - 3,
-        length: Math.random() * 150 + 50,
-        life: 0,
-        maxLife: Math.random() * 60 + 30
-    });
-}
+// Draw stars with shooting effect
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-// Animation loop
-function animate() {
-    ctx.fillStyle = 'rgba(0,0,0,0.25)'; // faint trail effect
-    ctx.fillRect(0, 0, W, H);
+  stars.forEach(star => {
+    // Normal star
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
+    ctx.fill();
 
-    // Draw stars
-    stars.forEach(s => {
+    // Twinkle
+    star.alpha += star.delta;
+    if (star.alpha > 1 || star.alpha < 0) star.delta *= -1;
+
+    if (!star.shooting) {
+      star.x += (Math.random() - 0.5) * 0.5; // small left/right drift
+      star.y += (Math.random() - 0.5) * 0.5;
+      if (star.x > canvas.width) star.x = 0;
+      if (star.x < 0) star.x = canvas.width;
+      if (star.y > canvas.height) star.y = 0;
+      if (star.y < 0) star.y = canvas.height;
+    } else {
+      // Shooting star setup
+      if (star.dx === 0 && star.dy === 0) {
+        const dirs = [
+          { dx: 3, dy: 3 },
+          { dx: -3, dy: 3 },
+          { dx: 3, dy: -3 },
+          { dx: -3, dy: -3 }
+        ];
+        const d = dirs[Math.floor(Math.random() * dirs.length)];
+        star.dx = d.dx;
+        star.dy = d.dy;
+      }
+
+      // Trail effect
+      star.trail.push({ x: star.x, y: star.y });
+      if (star.trail.length > 30) star.trail.shift();
+
+      star.trail.forEach((t, i) => {
         ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+        ctx.arc(t.x, t.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,200,${i / star.trail.length})`;
         ctx.fill();
+      });
 
-        s.alpha += s.delta;
-        if (s.alpha > 1 || s.alpha < 0) s.delta *= -1;
+      // Bright head
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255,255,180,0.9)";
+      ctx.fill();
 
-        s.x += s.speedX;
-        s.y += s.speedY;
-        if (s.x < 0) s.x = W;
-        if (s.x > W) s.x = 0;
-        if (s.y < 0) s.y = H;
-        if (s.y > H) s.y = 0;
-    });
+      // Move shooting star
+      star.x += star.dx;
+      star.y += star.dy;
 
-    // Occasionally spawn shooting stars
-    if (Math.random() < 0.02) spawnShootingStar();
-
-    // Draw shooting stars
-    for (let i = shootingStars.length - 1; i >= 0; i--) {
-        const sh = shootingStars[i];
-        ctx.beginPath();
-        ctx.moveTo(sh.x, sh.y);
-        ctx.lineTo(sh.x - sh.dx * sh.length, sh.y - sh.dy * sh.length);
-        ctx.strokeStyle = 'rgba(255, 255, 200, 0.8)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        sh.x += sh.dx;
-        sh.y += sh.dy;
-        sh.life++;
-
-        if (sh.life > sh.maxLife || sh.x < -200 || sh.x > W + 200 || sh.y < -200 || sh.y > H + 200) {
-            shootingStars.splice(i, 1);
-        }
+      // Reset if off screen
+      if (star.x < -50 || star.y < -50 || star.x > canvas.width + 50 || star.y > canvas.height + 50) {
+        star.x = Math.random() * canvas.width;
+        star.y = Math.random() * canvas.height / 2;
+        star.dx = 0;
+        star.dy = 0;
+        star.trail = [];
+        star.shooting = Math.random() < 0.05;
+      }
     }
+  });
 
-    requestAnimationFrame(animate);
+  requestAnimationFrame(drawStars);
 }
 
-animate();
+drawStars();
 </script>
+
+<style>
+/* Safe Fix: Ensure galaxy background shows under notepad */
+#starCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1; /* behind everything */
+  width: 100%;
+  height: 100%;
+}
+
+/* Notepad container stays above canvas */
+.notepad-container, #notepad {
+  position: relative;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.25); /* transparent so stars show */
+}
+
+#notepad textarea {
+  background-color: rgba(0, 0, 0, 0.15);
+  color: white;
+}
+
+/* Modal safe fix */
+.modal-content { background-color: rgba(0,0,0,0.85); }
+.modal-content::-webkit-scrollbar-thumb { background: #0078d7; }
+.modal-content::-webkit-scrollbar-thumb:hover { background: #005fa3; }
+</style>
+
 
 
 </body>
 
 
 </html>
+
 
 
 
