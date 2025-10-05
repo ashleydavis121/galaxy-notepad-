@@ -17296,6 +17296,13 @@ setInterval(rotateMessages, 5000);
   </p>
 </footer>
 
+<canvas id="starCanvas"></canvas>
+
+<style>
+  body, html { margin: 0; padding: 0; overflow: hidden; background: black; }
+  #starCanvas { display: block; position: fixed; top: 0; left: 0; z-index: -1; }
+</style>
+
 <script>
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
@@ -17307,10 +17314,10 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-const numStars = 20000; // ← updated to 20,000 stars
+const numStars = 20000; // 20,000 stars
 const stars = [];
 
-// Create background stars
+// Create stars
 for (let i = 0; i < numStars; i++) {
   stars.push({
     x: Math.random() * canvas.width,
@@ -17318,69 +17325,68 @@ for (let i = 0; i < numStars; i++) {
     size: Math.random() * 2 + 1,
     alpha: Math.random(),
     delta: Math.random() * 0.02 + 0.01,
-    shooting: Math.random() < 0.1,
+    shooting: Math.random() < 0.05,
     dx: 0,
     dy: 0,
     trail: []
   });
 }
 
+// Draw stars in batches for smoother performance
+const batchSize = 25; // draw every 25th star per frame
+
 function drawStars() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (let star of stars) {
-    // Draw normal stars
+  for (let i = 0; i < stars.length; i += batchSize) {
+    const star = stars[i];
+
+    // Normal stars
     ctx.beginPath();
     ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
     ctx.fill();
 
-    // Twinkle effect
+    // Twinkle
     star.alpha += star.delta;
     if (star.alpha > 1 || star.alpha < 0) star.delta *= -1;
 
     if (!star.shooting) {
-      // Drift slowly
       star.x += star.size * 0.02;
       if (star.x > canvas.width) star.x = 0;
     } else {
       // Shooting star setup
       if (star.dx === 0 && star.dy === 0) {
-        const directions = [
-          { dx: 4, dy: 0 },   // right
-          { dx: -4, dy: 0 },  // left
-          { dx: 0, dy: 4 },   // down
-          { dx: 0, dy: -4 },  // up
-          { dx: 3, dy: 3 },   // down-right
-          { dx: -3, dy: 3 },  // down-left
-          { dx: 3, dy: -3 },  // up-right
-          { dx: -3, dy: -3 }  // up-left
+        const dirs = [
+          { dx: 3, dy: 3 },
+          { dx: -3, dy: 3 },
+          { dx: 3, dy: -3 },
+          { dx: -3, dy: -3 }
         ];
-        const dir = directions[Math.floor(Math.random() * directions.length)];
-        star.dx = dir.dx;
-        star.dy = dir.dy;
+        const d = dirs[Math.floor(Math.random() * dirs.length)];
+        star.dx = d.dx;
+        star.dy = d.dy;
       }
 
-      // Add trail
+      // Trail effect
       star.trail.push({ x: star.x, y: star.y });
-      if (star.trail.length > 40) star.trail.shift();
+      if (star.trail.length > 30) star.trail.shift();
 
-      // Draw trail
-      for (let i = 0; i < star.trail.length; i++) {
-        const t = star.trail[i];
+      for (let j = 0; j < star.trail.length; j++) {
+        const t = star.trail[j];
         ctx.beginPath();
         ctx.arc(t.x, t.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,200,${i / star.trail.length})`;
+        ctx.fillStyle = `rgba(255,255,200,${j / star.trail.length})`;
         ctx.fill();
       }
 
-      // Draw bright head
+      // Bright head
       ctx.beginPath();
       ctx.arc(star.x, star.y, 4, 0, Math.PI * 2);
       ctx.fillStyle = "rgba(255,255,180,0.9)";
       ctx.fill();
 
-      // Move star
+      // Move
       star.x += star.dx;
       star.y += star.dy;
 
@@ -17391,7 +17397,7 @@ function drawStars() {
         star.dx = 0;
         star.dy = 0;
         star.trail = [];
-        star.shooting = true;
+        star.shooting = Math.random() < 0.05;
       }
     }
   }
@@ -17401,6 +17407,7 @@ function drawStars() {
 
 drawStars();
 </script>
+
 <!-- Contact Us Modal -->
 <div id="contactModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
   <div class="modal-content" style="background:#000000; padding:20px; border-radius:8px; width:400px; max-width:90%;">
@@ -17500,6 +17507,7 @@ drawStars();
 
 
 </html>
+
 
 
 
