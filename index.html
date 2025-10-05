@@ -45,24 +45,6 @@ if (notepad) {
     notepad.parentNode.insertBefore(messageBox, notepad);
 }
 
-// Example: Display the latest message at the top of your notepad
-const messageBox = document.createElement('div');
-messageBox.style.background = '#fff3cd';
-messageBox.style.color = '#856404';
-messageBox.style.padding = '10px';
-messageBox.style.border = '1px solid #ffeeba';
-messageBox.style.borderRadius = '4px';
-messageBox.style.marginBottom = '10px';
-messageBox.style.fontFamily = 'Arial, sans-serif';
-messageBox.innerText = messages[messages.length - 1]; // shows the last message
-
-// Add to top of notepad (replace #documentPage with your notepad container)
-const notepad = document.getElementById('documentPage');
-if (notepad) {
-    notepad.parentNode.insertBefore(messageBox, notepad);
-}
-
-  ];
 
   let currentIndex = 0;
   const banner = document.getElementById("alert-banner");
