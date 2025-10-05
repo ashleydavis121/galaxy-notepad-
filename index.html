@@ -17533,10 +17533,10 @@ for (let i = 0; i < totalStars; i++) {
   stars.push({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    size: Math.random() * 10 + 10,
+    size: Math.random() * 2 + 2,
     alpha: Math.random(),
     delta: Math.random() * 0.02 + 0.01,
-    shooting: Math.random() < 0.05,
+    shooting: Math.random() < 0.01,
     dx: 0,
     dy: 0,
     trail: []
@@ -17653,6 +17653,7 @@ drawStars();
 
 
 </html>
+
 
 
 
