@@ -24,7 +24,27 @@
     "💜 Thanks for stopping by my amazing Notepad!",
     "🚀 New feature coming soon — stay tuned!",
     "📝 Share your suggestions or ideas anytime!",
-    "✨ Version 2.0 will be live soon!"
+    "✨ Version 2.0 will be live soon!",
+    "⚠️ Please understand some font sizes or fonts are still being tested. Please be patient while I work to make them fully functional for you!"
+];
+
+// Example: Display the latest message at the top of your notepad
+const messageBox = document.createElement('div');
+messageBox.style.background = '#fff3cd';
+messageBox.style.color = '#856404';
+messageBox.style.padding = '10px';
+messageBox.style.border = '1px solid #ffeeba';
+messageBox.style.borderRadius = '4px';
+messageBox.style.marginBottom = '10px';
+messageBox.style.fontFamily = 'Arial, sans-serif';
+messageBox.innerText = messages[messages.length - 1]; // shows the last message
+
+// Add to top of notepad (replace #documentPage with your notepad container)
+const notepad = document.getElementById('documentPage');
+if (notepad) {
+    notepad.parentNode.insertBefore(messageBox, notepad);
+}
+
   ];
 
   let currentIndex = 0;
@@ -17474,6 +17494,7 @@ drawStars();
 
 
 </html>
+
 
 
 
