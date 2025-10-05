@@ -17510,6 +17510,11 @@ setInterval(updateCountdown, 1000);
   }
 <canvas id="starCanvas"></canvas>
 
+</script>
+
+<!-- Full Update: Galaxy Star Background Fix -->
+<canvas id="starCanvas"></canvas>
+
 <script>
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
@@ -17522,6 +17527,7 @@ window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 const totalStars = 500; // Total stars for performance
+
 const stars = [];
 
 // Create stars
@@ -17532,7 +17538,7 @@ for (let i = 0; i < totalStars; i++) {
     size: Math.random() * 2 + 1,
     alpha: Math.random(),
     delta: Math.random() * 0.02 + 0.01,
-    shooting: Math.random() < 0.2, // increase shooting star chance
+    shooting: Math.random() < 0.05,
     dx: 0,
     dy: 0,
     trail: []
@@ -17555,10 +17561,8 @@ function drawStars() {
     if (star.alpha > 1 || star.alpha < 0) star.delta *= -1;
 
     if (!star.shooting) {
-      // small left/right drift
-      star.x += (Math.random() - 0.5) * 0.5;
+      star.x += (Math.random() - 0.5) * 0.5; // small left/right drift
       star.y += (Math.random() - 0.5) * 0.5;
-
       if (star.x > canvas.width) star.x = 0;
       if (star.x < 0) star.x = canvas.width;
       if (star.y > canvas.height) star.y = 0;
@@ -17605,7 +17609,7 @@ function drawStars() {
         star.dx = 0;
         star.dy = 0;
         star.trail = [];
-        star.shooting = Math.random() < 0.2; // more frequent shooting stars
+        star.shooting = Math.random() < 0.05;
       }
     }
   });
@@ -17615,6 +17619,7 @@ function drawStars() {
 
 drawStars();
 </script>
+
 
 
 <style>
@@ -17652,6 +17657,7 @@ drawStars();
 
 
 </html>
+
 
 
 
