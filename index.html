@@ -17454,42 +17454,43 @@ setInterval(updateCountdown, 1000);
   </p>
 </footer>
 <!-- Contact Us Modal -->
-<div id="contactModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
-  <div class="modal-content" style="background:#000000; padding:20px; border-radius:8px; width:400px; max-width:90%;">
-    <span class="close" id="closeModal" style="float:right; cursor:pointer;">&times;</span>
-    <h2 style="color:white;">Contact Us</h2>
+<div id="contactModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
+  <div class="modal-content" style="background:#000000; padding:20px; border-radius:8px; width:400px; max-width:90%; color:white; position:relative;">
+    <span class="close" id="closeModal" style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;">&times;</span>
+    <h2>Contact Us</h2>
+
     <form id="contactForm" action="https://formsubmit.co/ashleydavis121@outlook.com" method="POST">
       <!-- First Name -->
-      <label for="first_name" style="color:white;">First Name:</label>
-      <input type="text" name="first_name" required>
+      <label for="first_name">First Name:</label>
+      <input type="text" name="first_name" required style="width:100%; margin-bottom:10px; padding:6px;">
 
       <!-- Last Name -->
-      <label for="last_name" style="color:white;">Last Name:</label>
-      <input type="text" name="last_name" required>
+      <label for="last_name">Last Name:</label>
+      <input type="text" name="last_name" required style="width:100%; margin-bottom:10px; padding:6px;">
 
       <!-- Email -->
-      <label for="email" style="color:white;">Email:</label>
-      <input type="email" name="email" required>
+      <label for="email">Email:</label>
+      <input type="email" name="email" required style="width:100%; margin-bottom:10px; padding:6px;">
 
       <!-- Phone Number -->
-      <label for="phone" style="color:white;">Phone Number:</label>
-      <input type="tel" name="phone">
+      <label for="phone">Phone Number:</label>
+      <input type="tel" name="phone" style="width:100%; margin-bottom:10px; padding:6px;">
 
       <!-- Home Address -->
-      <label for="home_address" style="color:white;">Home Address:</label>
-      <input type="text" name="home_address">
+      <label for="home_address">Home Address:</label>
+      <input type="text" name="home_address" style="width:100%; margin-bottom:10px; padding:6px;">
 
       <!-- Company Name -->
-      <label for="company_name" style="color:white;">Company Name:</label>
-      <input type="text" name="company_name">
+      <label for="company_name">Company Name:</label>
+      <input type="text" name="company_name" style="width:100%; margin-bottom:10px; padding:6px;">
 
       <!-- Subject -->
-      <label for="subject" style="color:white;">Subject:</label>
-      <input type="text" name="subject" required>
+      <label for="subject">Subject:</label>
+      <input type="text" name="subject" required style="width:100%; margin-bottom:10px; padding:6px;">
 
       <!-- Inquiry Type -->
-      <label for="inquiry_type" style="color:white;">Type of Inquiry:</label>
-      <select name="inquiry_type" required>
+      <label for="inquiry_type">Type of Inquiry:</label>
+      <select name="inquiry_type" required style="width:100%; margin-bottom:10px; padding:6px;">
         <option value="">-- Select --</option>
         <option value="Bug Report">Bug Report</option>
         <option value="Idea">Idea</option>
@@ -17498,28 +17499,26 @@ setInterval(updateCountdown, 1000);
       </select>
 
       <!-- Message -->
-      <label for="message" style="color:white;">Message:</label>
-      <textarea name="message" rows="5" required></textarea>
+      <label for="message">Message:</label>
+      <textarea name="message" rows="5" required style="width:100%; margin-bottom:10px; padding:6px;"></textarea>
 
-      <!-- Optional hidden fields for FormSubmit -->
-      <input type="hidden" name="_captcha" value="false"> <!-- Disable built-in captcha -->
-      <input type="hidden" name="_next" value="https://yourwebsite.com/thankyou.html"> <!-- Redirect after submit -->
+      <!-- FormSubmit hidden fields -->
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://yourwebsite.com/thankyou.html">
 
-     
-
-      <!-- Send Button -->
-      <button type="submit">Send</button>
+      <!-- Submit Button -->
+      <button type="submit" style="background:yellow; color:black; border:none; border-radius:6px; padding:8px 16px; font-weight:bold; cursor:pointer;">Send</button>
     </form>
 
-</section>
-    <p id="formResponse" style="display:none; color:green; font-weight:bold; margin-top:10px;">
+    <!-- Success message -->
+    <p id="formResponse" style="display:none; color:lightgreen; font-weight:bold; margin-top:10px;">
       ✅ Thanks! Your message has been sent.
     </p>
   </div>
 </div>
 
 <script>
-  const contactLink = document.getElementById("contactLink"); // Button/link that opens modal
+  const contactLink = document.getElementById("contactLink"); // the button or link to open modal
   const modal = document.getElementById("contactModal");
   const closeBtn = document.getElementById("closeModal");
   const form = document.getElementById("contactForm");
@@ -17538,11 +17537,14 @@ setInterval(updateCountdown, 1000);
   // Show success message after submit
   form.onsubmit = () => {
     responseMsg.style.display = "block";
-    form.reset();
-    return true; // allow FormSubmit to send email
+    setTimeout(() => {
+      responseMsg.style.display = "none";
+      modal.style.display = "none";
+    }, 4000); // hide after 4 seconds
+    return true; // allow FormSubmit to process
   }
-
 </script>
+
 
 <!-- Full Update: Galaxy Star Background Fix -->
 <canvas id="starCanvas"></canvas>
@@ -17690,6 +17692,7 @@ drawStars();
 
 
 </html>
+
 
 
 
