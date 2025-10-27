@@ -17435,7 +17435,6 @@ Starting tomorrow, you’ll need to upgrade to continue using your notes. This h
         }
     </script>
 
-
 <!-- Blocking popup -->
 <div id="blockPopup" style="display:none;">
   <div class="popup-box">
@@ -17445,8 +17444,71 @@ Starting tomorrow, you’ll need to upgrade to continue using your notes. This h
     <p>By proceeding with the payment, you confirm that you understand and accept that this is a digital product, you are solely responsible for your purchase, and you cannot request a refund after payment.</p>
     <p>Your payment helps support the continued development of People Galaxy Notepad. Every contribution is appreciated and helps me maintain and improve this platform.</p>
     <label><input type="checkbox" id="agreePolicy"> I have read and agree to the no refund policy.</label>
+    <br><br>
     <a href="https://www.paypal.com/ncp/payment/3C3F8QFZNX94L" target="_blank" id="payButton" class="disabled">Pay Now</a>
   </div>
+</div>
+
+<style>
+/* Popup styling */
+#blockPopup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  text-align: left;
+  box-shadow: 0 0 15px #000;
+}
+
+#payButton.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+#payButton {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+#payButton:hover {
+  background-color: #0056b3;
+}
+</style>
+
+<script>
+// Show popup when page loads
+window.onload = function() {
+  document.getElementById('blockPopup').style.display = 'flex';
+  document.getElementById('notepad').disabled = true; // disable notepad
+}
+
+// Enable pay button only when checkbox is checked
+document.getElementById('agreePolicy').addEventListener('change', function() {
+  var payBtn = document.getElementById('payButton');
+  if(this.checked) {
+    payBtn.classList.remove('disabled');
+  } else {
+    payBtn.classList.add('disabled');
+  }
+});
+</script>
+
 
 <script>
 const blockPopup = document.getElementById('blockPopup');
@@ -17779,6 +17841,7 @@ drawStars();
 
 
 </html>
+
 
 
 
